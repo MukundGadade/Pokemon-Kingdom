@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import { ShowModalContext } from "./CustomProvider/Context/ShowModalProvider";
 
 export const PokemonCharacter = ({pokemonUrl}) => {
@@ -8,7 +8,7 @@ export const PokemonCharacter = ({pokemonUrl}) => {
     const [IsLoading, setIsLoading] = useState(true);
     const [pokemonInfo, setPokemonInfo] = useState({});
 
-    const fetchPokemonInfo = async () => {
+    const fetchPokemonInfo = useCallback(async () => {
 
         try {
             setIsLoading(true);
@@ -25,18 +25,18 @@ export const PokemonCharacter = ({pokemonUrl}) => {
             setIsLoading(false);
         }
 
-    }
+    }, [pokemonUrl])
 
     useEffect(() => {
         fetchPokemonInfo();
-    }, []);
+    }, [fetchPokemonInfo]);
 
     return (
         <section className={`pokemon-card ${pokemonInfo.type}`}>
             {IsLoading ? <div>Loading...</div> : 
                 (<>
                     <div className={`card-id ${pokemonInfo.type}-btn`}>#{pokemonInfo.id}</div>
-                    <img src={pokemonInfo.image} alt={`Image of ${pokemonInfo.name}`} />
+                    <img src={pokemonInfo.image} alt={pokemonInfo.name} />
                     <div className="char-name">{pokemonInfo.name}</div>
                     <div className="char-type">Type : {pokemonInfo.type}</div>
                     <button className={`know-more ${pokemonInfo.type}-btn`} onClick={() => setShowModal({show : true, pokemonDetails : pokemonInfo})}>Know More...</button>
