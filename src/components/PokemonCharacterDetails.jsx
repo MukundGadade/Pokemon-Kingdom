@@ -10,7 +10,7 @@ export const PokemonCharacterDetails = (props) => {
         <aside className={`modal-container ${type}`}>
             <section className="stats-container">
                 <div className="column-1">
-                    <img src={image} alt={`Image of ${name}`} />
+                    <img src={image} alt={name} />
                     <h3>{name}</h3>
                 </div>
                 <section className={`details-container ${type}`}>
