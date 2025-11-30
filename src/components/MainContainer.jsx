@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../App.css';
 import { PokemonCharacter } from './PokemonCharacter';
 import { Header } from './Header';
@@ -9,7 +9,7 @@ function MainContainer() {
   const [pokemonList, setpokemonList] = useState([]);
   const [nextUrl, setNextUrl] = useState('https://content.newtonschool.co/v1/pr/64ccef982071a9ad01d36ff6/pokemonspages1');
 
-  const fetchPokemonRecords = useCallback(async (url) => {
+  const fetchPokemonRecords = async (url) => {
 
     try {
 
@@ -18,7 +18,7 @@ function MainContainer() {
       const response = await fetch(url);
       const [pokemonListResult] = await response.json();
 
-      console.log(pokemonListResult);
+      // console.log(pokemonListResult);
       setpokemonList([...pokemonList, ...pokemonListResult.results]);
       
       setNextUrl(pokemonListResult.next);
@@ -29,7 +29,7 @@ function MainContainer() {
       setIsLoading(false);
     }
 
-  }, [pokemonList])
+  }
 
   const loadMorePokeMons = () => {
     if(nextUrl) {
@@ -39,7 +39,9 @@ function MainContainer() {
 
   useEffect(() => {
     fetchPokemonRecords(nextUrl);
-  }, [fetchPokemonRecords, nextUrl, pokemonList]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main>

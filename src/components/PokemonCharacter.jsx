@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { ShowModalContext } from "./CustomProvider/Context/ShowModalProvider";
 
 export const PokemonCharacter = ({pokemonUrl}) => {
@@ -8,7 +8,7 @@ export const PokemonCharacter = ({pokemonUrl}) => {
     const [IsLoading, setIsLoading] = useState(true);
     const [pokemonInfo, setPokemonInfo] = useState({});
 
-    const fetchPokemonInfo = useCallback(async () => {
+    const fetchPokemonInfo = async () => {
 
         try {
             setIsLoading(true);
@@ -25,11 +25,13 @@ export const PokemonCharacter = ({pokemonUrl}) => {
             setIsLoading(false);
         }
 
-    }, [pokemonUrl])
+    }
 
     useEffect(() => {
         fetchPokemonInfo();
-    }, [fetchPokemonInfo]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <section className={`pokemon-card ${pokemonInfo.type}`}>
